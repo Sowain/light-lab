@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مختبر انكسار الضوء والعدسات</title>
+<meta name="description" content="مختبر تفاعلي بالعربي لشرح انكسار الضوء وقانون سنل والعدسات والمنشور">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>مختبر انكسار الضوء والعدسات</h1>
+    <p class="sub">حرّك، غيّر القيم، وشوف كيف يتصرف الضوء لما ينتقل بين الأوساط.</p>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="refr" role="tab">الانكسار بين وسطين</button>
+      <button class="tab" data-tab="lens" role="tab">العدسات</button>
+      <button class="tab" data-tab="prism" role="tab">المنشور</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<!-- ============ 1. Refraction ============ -->
+<section class="panel active" id="refr">
+  <div class="stage-col">
+    <div class="stage"><canvas id="cv-refr" aria-label="محاكاة انكسار الضوء"></canvas>
+      <div class="hint">اسحب مصدر الليزر لتغيير زاوية السقوط</div></div>
+    <div class="readout" id="ro-refr"></div>
+  </div>
+  <aside class="side">
+    <div class="card controls">
+      <h2>التحكم</h2>
+      <label>الوسط الأول (فوق)
+        <select id="m1"></select></label>
+      <label>الوسط الثاني (تحت)
+        <select id="m2"></select></label>
+      <label>زاوية السقوط: <b><span class="ltr" id="a1v">30°</span></b>
+        <input type="range" id="a1" min="0" max="89" step="0.5" value="30"></label>
+      <div class="row">
+        <label class="chk"><input type="checkbox" id="showRefl" checked> الشعاع المنعكس</label>
+        <label class="chk"><input type="checkbox" id="showArcs" checked> الزوايا</label>
+      </div>
+      <button class="btn ghost" id="swap">بدّل الوسطين ⇅</button>
+    </div>
+    <div class="card explain">
+      <h2>وش يصير هنا؟</h2>
+      <p>الضوء يمشي بسرعات مختلفة في الأوساط. لما ينتقل من وسط لوسط يغيّر اتجاهه، وهذا اسمه <b>الانكسار</b>.</p>
+      <p>لو دخل وسط أكثف (معامل انكساره أكبر) يقترب من <b>العمود المقام</b>. ولو طلع لوسط أقل كثافة يبتعد عنه.</p>
+      <p class="eq"><span class="ltr">n₁ sin θ₁ = n₂ sin θ₂</span></p>
+      <p>ولما يطلع الضوء من وسط كثيف لوسط أقل كثافة بزاوية أكبر من <b>الزاوية الحرجة</b>، ما يطلع أبداً، يرجع كله. وهذا <b>الانعكاس الكلي الداخلي</b>، وعليه تشتغل الألياف البصرية.</p>
+    </div>
+    <div class="card challenge">
+      <h2>جرّب بنفسك</h2>
+      <p>خلّ الوسط الأول <b>زجاج</b> والثاني <b>هواء</b>، وحط زاوية السقوط <span class="ltr">45°</span>. هل يطلع الضوء للهواء؟ وليش؟</p>
+      <button class="btn" data-ans="ans1">أظهر الجواب</button>
+      <p class="ans" id="ans1">لا، يرجع كله للزجاج. الزاوية الحرجة للزجاج تقريباً <span class="ltr">41.8°</span>، و<span class="ltr">45°</span> أكبر منها، فيصير انعكاس كلي داخلي.</p>
+    </div>
+  </aside>
+</section>
+
+<!-- ============ 2. Lenses ============ -->
+<section class="panel" id="lens">
+  <div class="stage-col">
+    <div class="stage"><canvas id="cv-lens" aria-label="محاكاة العدسات"></canvas>
+      <div class="legend"><span><i style="background:#e11d48"></i>شعاع موازٍ</span><span><i style="background:#2563eb"></i>شعاع المركز</span><span><i style="background:#16a34a"></i>شعاع البؤرة</span></div></div>
+    <div class="readout" id="ro-lens"></div>
+  </div>
+  <aside class="side">
+    <div class="card controls">
+      <h2>التحكم</h2>
+      <div class="seg" id="lensType">
+        <button class="on" data-v="convex">عدسة محدّبة (لامّة)</button>
+        <button data-v="concave">عدسة مقعّرة (مفرّقة)</button>
+      </div>
+      <label>البُعد البؤري <span class="ltr">f</span>: <b><span class="ltr" id="fv"></span></b>
+        <input type="range" id="f" min="5" max="20" step="0.5" value="10"></label>
+      <label>بُعد الجسم <span class="ltr">d<sub>o</sub></span>: <b><span class="ltr" id="dov"></span></b>
+        <input type="range" id="do" min="2" max="50" step="0.5" value="25"></label>
+      <label>طول الجسم: <b><span class="ltr" id="hov"></span></b>
+        <input type="range" id="ho" min="1" max="6" step="0.5" value="3"></label>
+    </div>
+    <div class="card explain">
+      <h2>وش يصير هنا؟</h2>
+      <p><b>العدسة المحدّبة</b> تجمع الأشعة في البؤرة، و<b>المقعّرة</b> تفرّقها كأنها طالعة من البؤرة.</p>
+      <p>نرسم ٣ أشعة رئيسية من رأس الجسم، ووين ما تتقاطع تطلع الصورة:</p>
+      <ol>
+        <li>شعاع موازٍ للمحور، ينكسر ويمر بالبؤرة.</li>
+        <li>شعاع يمر بمركز العدسة، يكمل بدون ما ينحرف.</li>
+        <li>شعاع يمر بالبؤرة، يطلع موازي للمحور.</li>
+      </ol>
+      <p class="eq"><span class="ltr">1/f = 1/d<sub>o</sub> + 1/d<sub>i</sub></span></p>
+      <p>إذا تقاطعت الأشعة فعلاً، الصورة <b>حقيقية</b> وتنعرض على شاشة. وإذا تقاطعت امتداداتها (الخطوط المتقطعة)، الصورة <b>تقديرية</b>.</p>
+    </div>
+    <div class="card challenge">
+      <h2>جرّب بنفسك</h2>
+      <p>وين تحط الجسم قدّام العدسة المحدّبة عشان تطلع له صورة <b>معتدلة ومكبّرة</b> مثل العدسة المكبّرة؟</p>
+      <button class="btn" data-ans="ans2">أظهر الجواب</button>
+      <p class="ans" id="ans2">حطه أقرب من البؤرة (<span class="ltr">d<sub>o</sub> &lt; f</span>). تطلع الصورة تقديرية ومعتدلة ومكبّرة، في نفس جهة الجسم.</p>
+    </div>
+  </aside>
+</section>
+
+<!-- ============ 3. Prism ============ -->
+<section class="panel" id="prism">
+  <div class="stage-col">
+    <div class="stage dark"><canvas id="cv-prism" aria-label="محاكاة تحلل الضوء في المنشور"></canvas></div>
+    <div class="readout" id="ro-prism"></div>
+  </div>
+  <aside class="side">
+    <div class="card controls">
+      <h2>التحكم</h2>
+      <label>زاوية السقوط على المنشور: <b><span class="ltr" id="piv"></span></b>
+        <input type="range" id="pi" min="0" max="80" step="0.5" value="50"></label>
+      <label>زاوية رأس المنشور: <b><span class="ltr" id="pav"></span></b>
+        <input type="range" id="pa" min="30" max="75" step="1" value="60"></label>
+      <label class="chk"><input type="checkbox" id="pwhite"> ضوء أحادي اللون (أحمر بس)</label>
+    </div>
+    <div class="card explain">
+      <h2>وش يصير هنا؟</h2>
+      <p>الضوء الأبيض خليط من كل الألوان. الزجاج له معامل انكسار يختلف شوي لكل لون: <b>البنفسجي</b> أكبر، و<b>الأحمر</b> أصغر.</p>
+      <p>عشان كذا كل لون ينكسر بزاوية مختلفة، فتنفصل الألوان وتطلع مثل قوس المطر. وهذا اسمه <b>تحلّل الضوء</b> (التشتّت).</p>
+      <p>المنشور هنا من زجاج الصوان، ومعامل انكساره من <span class="ltr">1.613</span> للأحمر إلى <span class="ltr">1.647</span> للبنفسجي.</p>
+    </div>
+    <div class="card challenge">
+      <h2>جرّب بنفسك</h2>
+      <p>أي لون ينحرف أكثر؟ وجرّب تكبّر زاوية رأس المنشور: وش يصير للألوان؟</p>
+      <button class="btn" data-ans="ans3">أظهر الجواب</button>
+      <p class="ans" id="ans3">البنفسجي ينحرف أكثر لأن معامل انكساره أكبر. ولما تكبر زاوية الرأس يزيد الانحراف والتشتّت، ولو كبرت كثير يصير انعكاس كلي على الوجه الثاني وما يطلع الضوء.</p>
+    </div>
+  </aside>
+</section>
+</main>
+<footer class="wrap foot">مختبر تعليمي مفتوح المصدر. كل الرسوم محسوبة بالكود مباشرة في المتصفح.</footer>
+<script src="lab.js"></script>
+</body>
+</html>
